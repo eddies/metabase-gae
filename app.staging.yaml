@@ -1,0 +1,26 @@
+runtime: custom
+env: flex
+service: metabase-staging
+
+# We set instances to one as setting cannnot persist across multiple instances
+# and metabase is not setup for scaling
+manual_scaling:
+  instances: 1
+resources:
+  memory_gb: 2
+
+
+env_variables:
+  MB_JETTY_PORT: 8080
+  MB_DB_TYPE: postgres
+  MB_DB_DBNAME: metabase-application-db
+  MB_DB_PORT: 5432
+  MB_DB_USER: postgres
+  MB_DB_PASS: # saved in 1PW, do not commit value
+  MB_DB_HOST: 127.0.0.1
+  MB_ENCRYPTION_SECRET_KEY: # saved in 1PW, do not commit value
+  CLOUD_SQL_INSTANCE: analytics-staging-246217:us-west2:analytics-staging-246217-instance
+  # Refers to the Embodied Analytics DB Replica Instance
+  CLOUD_SQL_REPLICA_INSTANCE: analytics-staging-246217:us-west2:analytics-staging-246217-instance-replica
+  # We mount on port 5433, this port should be specified when setting up the DB connection in the Metbase UI
+  REPLICA_PORT: 5433
